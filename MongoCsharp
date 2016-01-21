@@ -1,0 +1,25 @@
+using MongoDB.Driver;
+using MongoDB.Bson;
+using Microsoft.AspNet.SignalR;
+using System;
+using System.Diagnostics;
+using System.Threading.Tasks;
+
+namespace WebApplication10
+{
+    public class ChatHub : Hub
+    {
+        protected static IMongoClient client = new MongoClient("mongodb://191.237.40.161:27017");
+        protected static IMongoDatabase database = client.GetDatabase("test1");
+
+        public async Task<int> Send(string name, string message)
+        {
+            // Call the broadcastMessage method to update clients.
+            Clients.All.broadcastMessage(name, message);
+            var collection = database.GetCollection<BsonDocument>("collection2");
+            var document = new BsonDocument { { "name",name}, {"message",message } };
+            await collection.InsertOneAsync(document);
+            return 0;
+        }
+    }
+}
