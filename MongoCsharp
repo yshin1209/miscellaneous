@@ -1,8 +1,6 @@
 using MongoDB.Driver;
 using MongoDB.Bson;
 using Microsoft.AspNet.SignalR;
-using System;
-using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace WebApplication10
