@@ -7,24 +7,27 @@ namespace WebApplication10
 {
     public class ChatHub : Hub
     {
+        // Connect to mongodb (on Azure)
         protected static IMongoClient client = new MongoClient("mongodb://191.237.40.161:27017");
+        // Use a previously created database named test1 on mongodb
         protected static IMongoDatabase database = client.GetDatabase("test1");
-
+        
+        // ChatHub clients will invoke this "Send" method
         public async Task<int> Send(string name, string message)
         {
-            // Call the broadcastMessage method to update clients.
-
-
+            // Use a ollection named collection3 in "test1"
             var collection = database.GetCollection<BsonDocument>("collection3");
             var document = new BsonDocument { { "name",name}, {"message",message } };
+            // Send name and message to mongodb asynchronously
             await collection.InsertOneAsync(document);
+            // Recieve all names and messages from mongodb asynchronously. FindAsync will return a cursor.
             var cursor = await collection.FindAsync(new BsonDocument());
-
             while (await cursor.MoveNextAsync())
             {
                 var batch = cursor.Current;
                 foreach (var doc in batch)
                 {
+                 // Call the broadcastMessage method to update clients
                     Clients.All.broadcastMessage(name, MongoDB.Bson.BsonExtensionMethods.ToJson(doc));
                 }
             }
