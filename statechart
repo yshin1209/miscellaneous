@@ -12,6 +12,9 @@
 <script>
     var lightSwitch = _.extend({
 
+        // slots
+        switch1: false,
+
         initialState: "S1",
         states: {
             'S1': {
@@ -35,8 +38,12 @@
                         'entry': function () {
                             console.log('S31 being entered.');
                         },
-                        '1': {target: 'S1'},
-                        '2': {target: 'S2'}
+                        '2': {
+                                guard: function() { return this.switch1 === false; },
+                                action: function() { console.log('Hooray, transition takes place.')},
+                                target: 'S1'
+                             },
+                        '1': {target: 'S2'}
                     },
                     'S32': {
                         'entry': function () {
