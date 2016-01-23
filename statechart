@@ -1,6 +1,3 @@
-Finite State Machine Designer
-http://madebyevan.com/fsm/
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -74,8 +71,6 @@ http://madebyevan.com/fsm/
     // Initialize the state machine and make the initial transition
     lightSwitch.run();
 
-    // Dispatch the `2` event to the machine
-
     function gotoS1(){
         lightSwitch.dispatch('gotoS1');
     }
@@ -87,7 +82,7 @@ http://madebyevan.com/fsm/
     function gotoS3(){
         lightSwitch.dispatch('gotoS3');
     }
-    
+
 </script>
 
 </body>
