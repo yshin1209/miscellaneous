@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- uses DavidDurman/statechart https://github.com/DavidDurman/statechart -->
     <meta charset="UTF-8">
     <title>Title</title>
     <!-- https://github.com/DavidDurman/statechart/blob/master/lib/statechart.js -->
@@ -59,10 +60,10 @@
     }, Statechart);
 
 
-    // Initialize the state machine and make the initial transition (to the `Out` state).
+    // Initialize the state machine and make the initial transition
     lightSwitch.run();
 
-    // Dispatch the `on` event to the machine which causes it to transit to the `On` state.
+    // Dispatch the `2` event to the machine w
     lightSwitch.dispatch('2');
     lightSwitch.dispatch('2');
 
