@@ -1,20 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- uses DavidDurman/statechart https://github.com/DavidDurman/statechart -->
+    <title>Statechart example (Yong-Jun Shin, csml.uconn.edu | 2016)</title>
     <meta charset="UTF-8">
-    <title>Title</title>
-    <!-- https://github.com/DavidDurman/statechart/blob/master/lib/statechart.js -->
-    <script src = "statechart.js"></script>
-    <!-- http://underscorejs.org/underscore-min.js -->
-    <script src = "underscore.js"></script>
+    <!-- uses DavidDurman/statechart https://github.com/DavidDurman/statechart -->
+    <script src = "https://rawgit.com/DavidDurman/statechart/master/lib/statechart.js"></script>
+    <!-- http://underscorejs.org/ -->
+    <script src = "https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore.js"></script>
 </head>
 <body>
+<label for="currentState">Current State (Try to go from S31 to S1 to see how guard and action work)</label>
 <div id = "currentState"></div>
 
 <button onclick="gotoS1()">Go to S1</button>
 <button onclick="gotoS2()">Go to S2</button>
 <button onclick="gotoS3()">Go to S3</button>
+<button onclick="gotoS31()">Go to S31</button>
+<button onclick="gotoS32()">Go to S32</button>
 <script>
     var lightSwitch = _.extend({
 
@@ -27,15 +29,21 @@
                 'entry': function () {
                     document.getElementById("currentState").innerHTML = 'S1';
                 },
-                'gotoS2':  { target: 'S2'   },
-                'gotoS3': { target: 'S3'  }
+                'gotoS1': { target: 'S1'  },
+                'gotoS2': { target: 'S2'  },
+                'gotoS3':  { target: 'S3' },
+                'gotoS31': { target: 'S31' },
+                'gotoS32': { target: 'S32' }
             },
             'S2': {
                 'entry': function () {
                     document.getElementById("currentState").innerHTML = 'S2';
                 },
-                'gotoS1':  { target: 'S1'  },
-                'gotoS2': { target: 'S2' }
+                'gotoS1': { target: 'S1'  },
+                'gotoS2': { target: 'S2'  },
+                'gotoS3':  { target: 'S3' },
+                'gotoS31': { target: 'S31' },
+                'gotoS32': { target: 'S32' }
             },
             'S3': {
                 init: 'S31',
@@ -49,17 +57,23 @@
                         },
                         'gotoS1': {
                                 guard: function() { return this.switch1 === false; },
-                                action: function() { console.log('Hooray, transition takes place.')},
+                                action: function() { alert('Hooray, transition takes place from S31 to S1.')},
                                 target: 'S1'
                              },
-                        'gotoS2': {target: 'S2'}
+                        'gotoS2': { target: 'S2'  },
+                        // 'gotoS3':  { target: 'S3' }, Not needed since S31 is a substate of S3
+                        'gotoS31': { target: 'S31' },
+                        'gotoS32': { target: 'S32' }
                     },
                     'S32': {
                         'entry': function () {
                             document.getElementById("currentState").innerHTML = 'S32';
                         },
-                        'gotoS1': {target: 'S1'},
-                        'gotoS2': {target: 'S2'}
+                        'gotoS1': { target: 'S1'  },
+                        'gotoS2': { target: 'S2'  },
+                        //'gotoS3':  { target: 'S3' }, Not needed since S32 is a substate of S3
+                        'gotoS31': { target: 'S31' },
+                        'gotoS32': { target: 'S32' }
                     }
                 }
             }
@@ -81,6 +95,13 @@
 
     function gotoS3(){
         lightSwitch.dispatch('gotoS3');
+    }
+    function gotoS31(){
+        lightSwitch.dispatch('gotoS31');
+    }
+
+    function gotoS32(){
+        lightSwitch.dispatch('gotoS32');
     }
 
 </script>
