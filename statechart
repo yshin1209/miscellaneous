@@ -1,3 +1,6 @@
+Finite State Machine Designer
+http://madebyevan.com/fsm/
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,6 +13,11 @@
     <script src = "underscore.js"></script>
 </head>
 <body>
+<div id = "currentState"></div>
+
+<button onclick="gotoS1()">Go to S1</button>
+<button onclick="gotoS2()">Go to S2</button>
+<button onclick="gotoS3()">Go to S3</button>
 <script>
     var lightSwitch = _.extend({
 
@@ -20,38 +28,41 @@
         states: {
             'S1': {
                 'entry': function () {
-                    console.log('S1 being entered.');
+                    document.getElementById("currentState").innerHTML = 'S1';
                 },
-                '1':  { target: 'S2'   },
-                '2': { target: 'S3'  }
+                'gotoS2':  { target: 'S2'   },
+                'gotoS3': { target: 'S3'  }
             },
             'S2': {
                 'entry': function () {
-                    console.log('S2 being entered.');
+                    document.getElementById("currentState").innerHTML = 'S2';
                 },
-                '1':  { target: 'S1'  },
-                '2': { target: 'S2' }
+                'gotoS1':  { target: 'S1'  },
+                'gotoS2': { target: 'S2' }
             },
             'S3': {
                 init: 'S31',
+                'entry': function () {
+                    document.getElementById("currentState").innerHTML = 'S3';
+                },
                 states: {
                     'S31': {
                         'entry': function () {
-                            console.log('S31 being entered.');
+                            document.getElementById("currentState").innerHTML = 'S31';
                         },
-                        '2': {
+                        'gotoS1': {
                                 guard: function() { return this.switch1 === false; },
                                 action: function() { console.log('Hooray, transition takes place.')},
                                 target: 'S1'
                              },
-                        '1': {target: 'S2'}
+                        'gotoS2': {target: 'S2'}
                     },
                     'S32': {
                         'entry': function () {
-                            console.log('S32 being entered.');
+                            document.getElementById("currentState").innerHTML = 'S32';
                         },
-                        'goFromS32toS1': {target: 'S1'},
-                        'goFromS32toS2': {target: 'S2'}
+                        'gotoS1': {target: 'S1'},
+                        'gotoS2': {target: 'S2'}
                     }
                 }
             }
@@ -63,10 +74,20 @@
     // Initialize the state machine and make the initial transition
     lightSwitch.run();
 
-    // Dispatch the `2` event to the machine w
-    lightSwitch.dispatch('2');
-    lightSwitch.dispatch('2');
+    // Dispatch the `2` event to the machine
 
+    function gotoS1(){
+        lightSwitch.dispatch('gotoS1');
+    }
+
+    function gotoS2(){
+        lightSwitch.dispatch('gotoS2');
+    }
+
+    function gotoS3(){
+        lightSwitch.dispatch('gotoS3');
+    }
+    
 </script>
 
 </body>
