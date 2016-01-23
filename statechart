@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- https://github.com/DavidDurman/statechart/blob/master/lib/statechart.js -->
+    <script src = "statechart.js"></script>
+    <!-- http://underscorejs.org/underscore-min.js -->
+    <script src = "underscore.js"></script>
+</head>
+<body>
+<script>
+    var lightSwitch = _.extend({
+
+        initialState: "S1",
+        states: {
+            'S1': {
+                'entry': function () {
+                    console.log('S1 being entered.');
+                },
+                '1':  { target: 'S2'   },
+                '2': { target: 'S3'  }
+            },
+            'S2': {
+                'entry': function () {
+                    console.log('S2 being entered.');
+                },
+                '1':  { target: 'S1'  },
+                '2': { target: 'S2' }
+            },
+            'S3': {
+                init: 'S31',
+                states: {
+                    'S31': {
+                        'entry': function () {
+                            console.log('S31 being entered.');
+                        },
+                        '1': {target: 'S1'},
+                        '2': {target: 'S2'}
+                    },
+                    'S32': {
+                        'entry': function () {
+                            console.log('S32 being entered.');
+                        },
+                        'goFromS32toS1': {target: 'S1'},
+                        'goFromS32toS2': {target: 'S2'}
+                    }
+                }
+            }
+        }
+
+    }, Statechart);
+
+
+    // Initialize the state machine and make the initial transition (to the `Out` state).
+    lightSwitch.run();
+
+    // Dispatch the `on` event to the machine which causes it to transit to the `On` state.
+    lightSwitch.dispatch('2');
+    lightSwitch.dispatch('2');
+
+</script>
+
+</body>
+</html>
