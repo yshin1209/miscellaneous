@@ -1,0 +1,140 @@
+
+
+using System;
+
+namespace StateChartImpl
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Controller ctrl = new Controller();
+            while (!ctrl.IsFinalState())
+            {
+                string line = Console.ReadLine();
+                switch (line[0])
+                {
+                    case 'A': ctrl.eventA(); break;
+                    case 'B': ctrl.eventB(); break;
+                    case 'C': ctrl.eventC(); break;
+                    case 'E': ctrl.eventE(); break;
+                    case 'F': ctrl.eventF(); break;
+                    default:
+                        Console.WriteLine("Input not an event: " + line);
+                        break;
+                }
+                Console.WriteLine("STATUS: " + ctrl.ToString());
+            }
+        }
+    }
+
+    class Controller
+    {
+        private char stateOfU = '?';
+        private char stateOfS = '%';
+        private bool finalState = false;
+
+        public Controller()
+        {
+            goStateS();
+            goStateQ();
+        }
+
+        override public string ToString()
+        {
+            return "state of U = " + stateOfU + "  state of S = " + stateOfS;
+        }
+
+        /// 
+
+        /// State entry routines
+        /// 
+
+        private void goStateS()
+        {
+            stateOfU = 'S';
+            Console.WriteLine("Entering 'S'\n");
+
+        }
+        private void goStateT()
+        {
+            stateOfU = 'T';
+            Console.WriteLine("Entering 'T'\n");
+        }
+        private void goStateP()
+        {
+            stateOfS = 'P';
+            Console.WriteLine("Entering 'P'\n");
+        }
+        private void goStateQ()
+        {
+            stateOfS = 'Q';
+            Console.WriteLine("Entering 'Q'\n");
+        }
+        private void goStateFinal()
+        {
+            finalState = true;
+        }
+
+        public void eventA()
+        {
+            if (stateOfU == 'S' && stateOfS == 'Q')
+            {
+                goStateT();
+            }
+            else
+            {
+                Console.WriteLine("Event A ignored");
+            }
+        }
+        public void eventB()
+        {
+            if (stateOfU == 'T')
+            {
+                goStateS();
+                goStateP();
+            }
+            else
+            {
+                Console.WriteLine("Event B ignored");
+            }
+        }
+        public void eventC()
+        {
+            if (stateOfU == 'S' && stateOfS == 'P')
+            {
+                goStateQ();
+            }
+            else
+            {
+                Console.WriteLine("Event C ignored");
+            }
+        }
+        public void eventE()
+        {
+            if (stateOfU == 'S')
+            {
+                goStateT();
+            }
+            else
+            {
+                Console.WriteLine("Event F ignored");
+            }
+        }
+        public void eventF()
+        {
+            if (stateOfU == 'S')
+            {
+                goStateFinal();
+            }
+            else
+            {
+                Console.WriteLine("Event F ignored");
+            }
+        }
+        public bool IsFinalState()
+        {
+            return finalState;
+        }
+    }
+}
