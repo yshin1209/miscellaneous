@@ -1,0 +1,37 @@
+using System;
+using System.Web;
+using System.Collections.Generic;
+using Microsoft.AspNet.SignalR;
+using System.Diagnostics;
+
+namespace SignalRChat
+{
+    public class ChatHub : Hub
+    {
+        public void Send(string targetId, string message)
+        {
+            // Call the broadcastMessage method to update clients.
+            var  conid = Context.ConnectionId;
+            List<String> arr = history.addId(conid);
+            Clients.Client(targetId).broadcastMessage(arr, message);
+        }
+    }
+
+    public class history
+    {
+        static List<String> arr = new List<String>();
+        public static List<String> addId(string id)
+        {
+            if (!arr.Contains(id))
+            {
+                arr.Add(id); 
+            }
+            
+            foreach (var item in arr)
+            {
+                Debug.WriteLine(item);
+            }
+            return arr;
+        }
+    }
+}
