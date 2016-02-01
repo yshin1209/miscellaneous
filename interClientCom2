@@ -1,0 +1,33 @@
+using System;
+using System.Web;
+using Microsoft.AspNet.SignalR;
+using System.Collections.Concurrent;
+using System.Threading.Tasks;
+using System.Threading;
+using System.Diagnostics;
+
+namespace WebApplication3
+{
+    public class ChatHub : Hub
+    {
+        private static int userCount = 0;
+
+        private static ConcurrentDictionary<string, string> users = new ConcurrentDictionary<string, string>();
+        
+        public override Task OnConnected()
+        {
+            Interlocked.Increment(ref userCount);
+            string userName = "user" + userCount;
+            users[userName] = Context.ConnectionId;
+            return base.OnConnected();
+        }
+        public void Send(string name, string message)
+        {
+            // Call the broadcastMessage method to update clients.
+
+            Debug.WriteLine(users["user1"]);
+
+            Clients.Client(users["user2"]).broadcastMessage(name, message);
+        }
+    }
+}
