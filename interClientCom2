@@ -25,8 +25,6 @@ namespace WebApplication3
         {
             // Call the broadcastMessage method to update clients.
 
-            Debug.WriteLine(users["user1"]);
-
             Clients.Client(users["user2"]).broadcastMessage(name, message);
         }
     }
