@@ -82,13 +82,13 @@ RawBlameHistory     173 lines (142 sloc)  6.51 KB
             scene.registerBeforeRender(function () {
                 camera.alpha += 0.0005 * scene.getAnimationRatio();
                 if (i % 120 < 30) {
-                    droplet1.position.x += 1;
+                    droplet1.position.x += 100;
                 } else if (i % 120 < 60) {
-                    droplet1.position.z += 1;
+                    droplet1.position.z += 100;
                 } else if (i % 120 < 90) {
-                    droplet1.position.x -= 1;
+                    droplet1.position.x -= 100;
                 } else {
-                    droplet1.position.z -= 1;
+                    droplet1.position.z -= 100;
                 }
                 i++;
             });
