@@ -20,7 +20,7 @@ RawBlameHistory     173 lines (142 sloc)  6.51 KB
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
-    <title>Droplet routing sample using WebGL (Yong-Jun Shin, UCONN CSML 2015)</title>
+    <title>Droplet routing sample using WebGL (Ryan Rood) </title>
     <!-- Babylon.js -->
     <script src="http://www.babylonjs.com/hand.minified-1.2.js"></script>
     <script src="http://www.babylonjs.com/cannon.js"></script>
