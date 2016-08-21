@@ -1,0 +1,52 @@
+using RestSharp;
+using System.Web.Http;
+namespace WebApplication2.Controllers
+{
+    public class FirstController : ApiController
+    {
+        [HttpGet]
+        public IHttpActionResult Add(int param1, int param2)
+        {
+            var client = new RestClient("http://localhost:55420/");
+            var request = new RestRequest("api/second/add/"+param1+"/"+param2, Method.GET);
+            IRestResponse response = client.Execute(request);
+            string responseValue = response.Content;
+            return Ok(responseValue);
+        }
+    }
+}
+
+using System.Web.Http;
+namespace WebApplication2.Controllers
+{
+    public class SecondController : ApiController
+    {
+        [HttpGet]
+        public IHttpActionResult Add(int param1, int param2)
+        {
+            int sum = param1 + param2;
+            return Ok(sum);
+        }
+    }
+}
+
+//WebApiConfig.cs is in App_Start folder.
+using System.Web.Http;
+namespace WebApplication2
+{
+    public static class WebApiConfig
+    {
+        public static void Register(HttpConfiguration config)
+        {
+            // Web API configuration and services
+
+            // Web API routes
+            config.MapHttpAttributeRoutes();
+
+            config.Routes.MapHttpRoute(
+                name: "DefaultApi",
+                routeTemplate: "api/{controller}/{action}/{param1}/{param2}"
+            );
+        }
+    }
+}
