@@ -1,10 +1,12 @@
 using RestSharp;
 using System.Web.Http;
+using System.Web.Http.Cors;
 namespace WebApplication2.Controllers
 {
     public class FirstController : ApiController
     {
         [HttpGet]
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
         public IHttpActionResult Add(int param1, int param2)
         {
             var client = new RestClient("http://localhost:55420/");
@@ -17,11 +19,13 @@ namespace WebApplication2.Controllers
 }
 
 using System.Web.Http;
+using System.Web.Http.Cors;
 namespace WebApplication2.Controllers
 {
     public class SecondController : ApiController
     {
         [HttpGet]
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
         public IHttpActionResult Add(int param1, int param2)
         {
             int sum = param1 + param2;
@@ -38,8 +42,12 @@ namespace WebApplication2
     {
         public static void Register(HttpConfiguration config)
         {
-            // Web API configuration and services
-
+            // Enables cross-domain request; any client can request from anywhere
+            // First, in Visual Studio package manager console window, type following to install the needed package: \
+            // Install-Package Microsoft.AspNet.WebApi.Cors 
+            // For more information, visit http://www.asp.net/web-api/overview/security/enabling-cross-origin-requests-in-web-api
+            config.EnableCors();
+            
             // Web API routes
             config.MapHttpAttributeRoutes();
 
