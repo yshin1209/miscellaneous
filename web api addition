@@ -1,0 +1,42 @@
+
+
+using System.Web.Http;
+using System.Web.Http.Cors;
+namespace WebApplication2.Controllers
+{
+    public class AddController : ApiController
+    {
+        [HttpGet]
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        public IHttpActionResult Add(int param1, int param2)
+        {
+            int sum = param1 + param2;
+            return Ok(sum);
+        }
+    }
+}
+
+//WebApiConfig.cs is in App_Start folder.
+using System.Web.Http;
+namespace WebApplication2
+{
+    public static class WebApiConfig
+    {
+        public static void Register(HttpConfiguration config)
+        {
+            // Enables cross-domain request; any client can request from anywhere
+            // First, in Visual Studio package manager console window, type following to install the needed package: \
+            // Install-Package Microsoft.AspNet.WebApi.Cors 
+            // For more information, visit http://www.asp.net/web-api/overview/security/enabling-cross-origin-requests-in-web-api
+            config.EnableCors();
+            
+            // Web API routes
+            config.MapHttpAttributeRoutes();
+
+            config.Routes.MapHttpRoute(
+                name: "DefaultApi",
+                routeTemplate: "api/{controller}/{action}/{param1}/{param2}"
+            );
+        }
+    }
+}
