@@ -3,3 +3,6 @@ https://www.ivankrizsan.se/2016/05/18/enabling-docker-remote-api-on-ubuntu-16-04
 
 Enabling CORS
 http://54.71.194.30:4019/engine/reference/commandline/daemon/
+
+cors-container
+https://github.com/imjacobclark/cors-container
