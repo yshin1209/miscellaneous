@@ -1,0 +1,14 @@
+Cleint
+// NuGet Microsoft.ServiceFabric.Actors
+using Microsoft.ServiceFabric.Actors;
+using Microsoft.ServiceFabric.Actors.Client;
+namespace ActorClient
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var actor1 = ActorProxy.Create<IActor>(ActorId.CreateRandom(), "fabric:/MyActorApplication3");
+        }
+    }
+}
