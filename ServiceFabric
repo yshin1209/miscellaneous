@@ -31,3 +31,9 @@ Front End
 
             return new string[] { count.ToString() };
         }
+
+Actor1.cs
+        public Task<int> GetCountAsync()
+        {
+            return this.StateManager.GetStateAsync<int>("count");
+        }
