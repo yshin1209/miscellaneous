@@ -12,3 +12,22 @@ namespace ActorClient
         }
     }
 }
+
+Front End
+
+       // GET api/values
+       // NuGet Miscrosoft.ServiceFabric.Actors
+        [HttpGet]
+        public async Task<IEnumerable<string>> Get()
+        {
+
+            // Create a randomly distributed actor ID
+            ActorId actorId = ActorId.CreateRandom();
+                
+            IActor1 actor1 =
+            ActorProxy.Create<IActor1>(actorId, new Uri("fabric:/Application10/Actor1"));
+
+            long count = await actor1.GetCountAsync();
+
+            return new string[] { count.ToString() };
+        }
