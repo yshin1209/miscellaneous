@@ -19,17 +19,19 @@ Front End
        // NuGet Miscrosoft.ServiceFabric.Actors
        // using Microsoft.ServiceFabric.Actors.Client;
         [HttpGet]
-        public async Task<IEnumerable<string>> Get()
+        public async Task<string> Get()
         {
 
             // Create a randomly distributed actor ID
             ActorId actorId = ActorId.CreateRandom();
-                
-            IActor1 actor1 =
-            ActorProxy.Create<IActor1>(actorId, new Uri("fabric:/Application10/Actor1"));
+
+            var actor1 =
+            ActorProxy.Create<IActor1>(actorId, new Uri("fabric:/Application12/Actor1ActorService"));
 
             int count = await actor1.GetCountAsync();
 
-            return new string[] { count.ToString() };
+            //return new string[] { count.ToString() };
+            return count.ToString();
+
         }
 
