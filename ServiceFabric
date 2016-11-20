@@ -17,6 +17,7 @@ Front End
 
        // GET api/values
        // NuGet Miscrosoft.ServiceFabric.Actors
+       // using Microsoft.ServiceFabric.Actors.Client;
         [HttpGet]
         public async Task<IEnumerable<string>> Get()
         {
@@ -32,8 +33,3 @@ Front End
             return new string[] { count.ToString() };
         }
 
-Actor1.cs
-        public Task<int> GetCountAsync()
-        {
-            return this.StateManager.GetStateAsync<int>("count");
-        }
