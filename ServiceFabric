@@ -28,7 +28,7 @@ Front End
             IActor1 actor1 =
             ActorProxy.Create<IActor1>(actorId, new Uri("fabric:/Application10/Actor1"));
 
-            long count = await actor1.GetCountAsync();
+            int count = await actor1.GetCountAsync();
 
             return new string[] { count.ToString() };
         }
