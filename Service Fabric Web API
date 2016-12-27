@@ -1,10 +1,8 @@
 1. Service Fabric Application --> .NET Core --> Web API
-2. Right Click [Application Project] --> Add --> New Service Fabric Service --> Actor Service
+2. Right-Click [Application Project] --> Add --> New Service Fabric Service --> Actor Service
 3. [Web API Project] --> Add Reference  --> Actor1.Interfaces
-4. [Web API Project] --> Nuget --> Service Fabric Actor
-5. Build --> Configuration Manager --> Web1 & Actor1.Interfaces --> Any CPU
-
-
+4. [Web API Project] --> NuGet --> Microsoft.ServiceFabric.Actors --> Check [Web1] --> Install
+5. Copy:
 
 # Actor1 class
 using System.Threading.Tasks;
@@ -60,10 +58,12 @@ namespace Web1.Controllers
         {
             // Create a randomly distributed actor ID
             ActorId actorId = ActorId.CreateRandom();
+            //Change the name of Application
             var actor1 = ActorProxy.Create<IActor1>(actorId, new Uri("fabric:/Application15/Actor1ActorService"));
             int count = await actor1.Hello();
             return count.ToString();
         }
-
     }
 }
+
+6. Build --> Configuration Manager --> Web1 & Actor1.Interfaces --> Any CPU
