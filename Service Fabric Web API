@@ -1,3 +1,5 @@
+Service Fabric Explorer: http://localhost:19080/
+
 1. Service Fabric Application --> .NET Core --> Web API
 2. Right-Click [Application Project] --> Add --> New Service Fabric Service --> Actor Service
 3. [Web API Project] --> Add Reference  --> Actor1.Interfaces
