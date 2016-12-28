@@ -21,6 +21,8 @@ namespace Actor1
             this.StateManager.AddStateAsync("age", 46);
             this.StateManager.SetStateAsync("age", 23);
             return this.StateManager.GetStateAsync<int>("age");
+            //State can also be retrieved using a TryGet method that does not throw if an entry does not exist for a given key:
+            //this.StateManager.TryGetStateAsync<int>("age")
         }
     }
 }
