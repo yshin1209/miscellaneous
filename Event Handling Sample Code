@@ -1,0 +1,50 @@
+using System;
+namespace wildert
+{
+
+    public class Metronome
+    {
+        public delegate void Event1Handler();
+        public event Event1Handler Event1;
+
+        public void Start()
+        { 
+            while (true)
+            {
+                System.Threading.Thread.Sleep(3000);
+                if (Event1 != null)
+                {
+                    Event1();
+                }
+            }
+        }
+    }
+    public class Listener1
+    {
+        public void Subscribe(Metronome m)
+        {
+            m.Event1 += new Metronome.Event1Handler(OnEvent1Handler1);
+            m.Event1 += new Metronome.Event1Handler(OnEvent1Handler2);
+        }
+        private void OnEvent1Handler1()
+        {
+            System.Console.WriteLine("Listener1: HEARD IT");
+        }
+
+        private void OnEvent1Handler2()
+        {
+            System.Console.WriteLine("Listener2: HEARD IT");
+        }
+    }
+
+    class Test
+    {
+        static void Main()
+        {
+            Metronome m = new Metronome();
+            Listener1 l = new Listener1();
+            l.Subscribe(m);
+            m.Start();
+        }
+    }
+}
