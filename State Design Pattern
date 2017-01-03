@@ -1,0 +1,85 @@
+
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Context c = new Context(new State1()); // initial state
+            c.StateUpdateRequest(false);
+            Console.WriteLine("The current state is {0}", c.currentState.GetType().Name);
+            Console.ReadKey();
+        }
+    }
+    
+    
+    
+    interface IState
+    {
+        void UpdateState(Context context, bool signal);
+        void ToState1(Context context);
+        void ToState2(Context context);
+    }
+    
+    
+    
+    class State1 : IState
+    {
+        public void ToState1(Context context)
+        {
+            context.currentState = new State1();
+        }
+
+        public void ToState2(Context context)
+        {
+            context.currentState = new State2();
+        }
+
+        public void UpdateState(Context context, bool signal)
+        {
+            if (signal == false) ToState1(context);
+            if (signal == true) ToState2(context);
+        }
+    }
+    
+    
+    
+    class State2 : IState
+    {
+        public void ToState1(Context context)
+        {
+            context.currentState = new State1();
+        }
+
+        public void ToState2(Context context)
+        {
+            context.currentState = new State2();
+        }
+
+        public void UpdateState(Context context, bool signal)
+        {
+            if (signal == false) ToState1(context);
+            if (signal == true) ToState2(context);
+        }
+    }
+    
+    
+    
+    class Context
+    {
+        public IState currentState;
+
+        public Context (IState currentState)
+        {
+            this.currentState = currentState;
+        }
+
+        public void StateUpdateRequest (bool signal)
+        {
+            currentState.UpdateState(this, signal);
+        }
+    }
+    
+    
+    
+    
+    
