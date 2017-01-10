@@ -1,0 +1,34 @@
+using UnityEngine;
+
+public class Sphere : MonoBehaviour
+{
+    Vector3 initialDisplacement;
+    float k = 0.5f;
+    public GameObject partner;
+    // Use this for initialization
+    void Start()
+    {
+        initialDisplacement = gameObject.GetComponent<Transform>().position - partner.GetComponent<Transform>().position;
+        if (gameObject.name == "Sphere1")
+        {
+            gameObject.GetComponent<Transform>().Translate(-3f, 0, 0);
+        }
+           
+    }
+
+    // Update is called once per frame
+    void FixedUpdate()
+    {
+        
+        //Debug.Log(Time.deltaTime);
+        //Debug.Log(gameObject.GetComponent<Transform>().position.y);
+        Vector3 distanceVector = gameObject.GetComponent<Transform>().position - partner.GetComponent<Transform>().position;
+        Vector3 displacement = distanceVector - initialDisplacement;
+        Debug.Log("displacement " + displacement);
+        Vector3 force = -k * displacement;
+        gameObject.GetComponent<Rigidbody>().AddForce(force);
+
+
+
+    }
+}
