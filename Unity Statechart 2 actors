@@ -1,0 +1,182 @@
+Trigger1.cs
+
+using Assets;
+using UnityEngine;
+using UnityEngine.EventSystems;
+
+public class Trigger1: MonoBehaviour
+{
+    private GameObject target;
+    private bool triggerState;
+
+    void Start()
+    {
+        target = GameObject.Find("Actor1");
+        triggerState = false; // initial trigger state
+    }
+
+    void OnMouseDown() // toggle switch
+    {
+        if (triggerState == false)
+        {
+            triggerState = true;
+            ExecuteEvents.Execute<ISignal>(target, null, (x, y) => x.OnSignal());
+        }
+        else
+        {
+            triggerState = false;
+            ExecuteEvents.Execute<ISignal>(target, null, (x, y) => x.OffSignal());
+        }
+    }
+}
+
+
+Trigger2.cs
+
+using Assets;
+using UnityEngine;
+using UnityEngine.EventSystems;
+
+public class Trigger2 : MonoBehaviour
+{
+    private GameObject target;
+    private bool triggerState;
+
+    void Start()
+    {
+        target = GameObject.Find("Actor2");
+        triggerState = false; // initial trigger state
+    }
+
+    void OnMouseDown() // toggle switch
+    {
+        if (triggerState == false)
+        {
+            triggerState = true;
+            ExecuteEvents.Execute<ISignal>(target, null, (x, y) => x.OnSignal());
+        }
+        else
+        {
+            triggerState = false;
+            ExecuteEvents.Execute<ISignal>(target, null, (x, y) => x.OffSignal());
+        }
+    }
+}
+
+ISignal.cs
+
+using UnityEngine.EventSystems;
+
+namespace Assets
+{
+    public interface ISignal: IEventSystemHandler
+    {
+        void OnSignal();
+        void OffSignal();
+    }
+}
+
+IState.cs
+
+using UnityEngine.EventSystems;
+
+namespace Assets
+{
+    public interface IState: IEventSystemHandler
+    {
+        void OnState();
+        void OffState();
+    }
+}
+
+Actor1.cs
+
+using UnityEngine;
+using UnityEngine.EventSystems;
+
+namespace Assets
+{
+    public class Actor1 : MonoBehaviour, ISignal, IState
+    {
+        private GameObject subSystem;
+        public bool state { get; set; }
+
+        void Start()
+        {
+            subSystem = GameObject.Find("Actor2");
+            {
+                state = false;  // inital state
+                gameObject.GetComponent<Renderer>().material.color = Color.yellow; //inital output
+            }
+        }
+
+        public void OnSignal()
+        {
+            OnState();
+        }
+
+        public void OffSignal()
+        {
+            OffState();
+        }
+
+        public void OnState()
+        {
+            state = true;
+            gameObject.GetComponent<Renderer>().material.color = Color.red;
+        }
+
+        public void OffState()
+        {
+            gameObject.GetComponent<Renderer>().material.color = Color.yellow;
+            state = false;
+            ExecuteEvents.Execute<IState>(subSystem, null, (x, y) => x.OffState());
+        }
+    }
+}
+
+Actor2.cs
+
+using UnityEngine;
+
+namespace Assets
+{
+    class Actor2 : MonoBehaviour, ISignal, IState
+    {
+
+        public GameObject superSystem;
+        public bool state { get; set; }
+
+        void Start()
+        {
+            superSystem = GameObject.Find("Actor1");
+            state = false;  // inital state
+            gameObject.GetComponent<Renderer>().material.color = Color.blue; //inital output
+        }
+
+        public void OnSignal()
+        {
+            if (superSystem.GetComponent<Actor1>().state == true)
+            {
+                OnState();
+            }
+        }
+
+        public void OffSignal()
+        {
+            OffState();
+        }
+
+        public void OnState()
+        {
+            state = true;
+            gameObject.GetComponent<Renderer>().material.color = Color.green;
+        }
+
+        public void OffState()
+        {
+            gameObject.GetComponent<Renderer>().material.color = Color.blue;
+            state = false;
+        }
+    }
+}
