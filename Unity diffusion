@@ -26,6 +26,5 @@ public class Trigger : MonoBehaviour {
     {   
         temp = conc + coeff * (other.GetComponent<Trigger>().conc - conc);
         Debug.Log(gameObject.name + "concentration = " + temp);
-        new WaitForFixedUpdate();
     } 
 }
