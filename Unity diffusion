@@ -1,0 +1,31 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Trigger : MonoBehaviour {
+
+    public float conc;
+    public float temp;
+    private float coeff;
+    
+    // Use this for initialization
+    void Awake()
+    {
+        coeff = 0.1f;
+        temp = conc;
+    }
+
+    // Update is called once per frame
+    void FixedUpdate()
+    {
+        Debug.Log(Time.time);
+        conc = temp;
+    }
+
+    void OnTriggerStay(Collider other)
+    {   
+        temp = conc + coeff * (other.GetComponent<Trigger>().conc - conc);
+        Debug.Log(gameObject.name + "concentration = " + temp);
+        new WaitForFixedUpdate();
+    } 
+}
