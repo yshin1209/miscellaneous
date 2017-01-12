@@ -1,0 +1,137 @@
+System1.cs
+
+using Assets;
+using UnityEngine;
+
+public class System1 : MonoBehaviour {
+
+    public IState currentState;
+    public BackwardState backwardState;
+    public ForwardState forwardState;
+
+    void Awake()
+    {
+        backwardState = new BackwardState(this);
+        forwardState = new ForwardState(this);
+    }
+
+	// Use this for initialization
+	void Start ()
+    {
+        currentState = forwardState;	
+	}
+	
+	void FixedUpdate ()
+    {
+        currentState.UpdateState();  
+	}
+
+    void OnCollisionEnter (Collision col)
+    {
+        currentState.OnCollisionEnter(col);
+    }
+}
+
+
+IState.cs
+
+using UnityEngine;
+
+namespace Assets
+{
+    public interface IState
+    {
+        void UpdateState();
+
+        void OnCollisionEnter(Collision col);
+
+        void ToForwardState();
+
+        void ToBackwardState();
+    }
+}
+
+ForwardState.cs
+
+using UnityEngine;
+
+namespace Assets
+{
+    public class ForwardState : IState
+    {
+        System1 sys1;
+
+        public ForwardState(System1 sys1)
+        {
+            this.sys1 = sys1;
+        }
+
+        public void OnCollisionEnter(Collision col)
+        {
+            ToBackwardState();
+        }
+
+        public void ToBackwardState()
+        {
+            sys1.currentState = sys1.backwardState;
+        }
+
+        public void ToForwardState()
+        {
+            sys1.currentState = sys1.forwardState;
+        }
+
+        public void UpdateState()
+        {
+            Move();
+        }
+
+        void Move()
+        {
+            sys1.GetComponent<Transform>().Translate(-0.1f, 0, 0);
+        }
+    }
+}
+
+
+BackwardState.cs
+
+using UnityEngine;
+
+namespace Assets
+{
+    public class BackwardState : IState
+    {
+        System1 sys1;
+
+        public BackwardState(System1 sys1)
+        {
+            this.sys1 = sys1;
+        }
+
+        public void OnCollisionEnter(Collision col)
+        {
+            
+        }
+
+        public void ToBackwardState()
+        {
+            sys1.currentState = sys1.backwardState;
+        }
+
+        public void ToForwardState()
+        {
+            sys1.currentState = sys1.forwardState;
+        }
+
+        public void UpdateState()
+        {
+            Move();
+        }
+
+        void Move()
+        {
+            sys1.GetComponent<Transform>().Translate(0.1f, 0, 0);
+        }
+    }
+}
