@@ -1,0 +1,110 @@
+
+
+Actor1.cs
+
+using System.Threading.Tasks;
+using Microsoft.ServiceFabric.Actors;
+using Microsoft.ServiceFabric.Actors.Runtime;
+using Actor1.Interfaces;
+using System.Diagnostics;
+
+namespace Actor1
+{
+    [StatePersistence(StatePersistence.Persisted)]
+    internal class Actor1 : Actor, IActor1
+    {
+        public IState currentState;
+        public OnState onState;
+        public OffState offState;
+
+        public Actor1(ActorService actorService, ActorId actorId)
+            : base(actorService, actorId)
+        {
+            onState = new OnState(this);
+            offState = new OffState(this);
+            currentState = onState;
+            Debug.WriteLine("Initial State Variable: " + currentState.stateVariable);
+        }
+
+        public Task<bool> Update()
+        {
+            currentState.UpdateState();
+            Debug.WriteLine("Updated State Variable: " + currentState.stateVariable);
+            return Task.FromResult<bool>(currentState.stateVariable);
+        }
+    }
+}
+
+IState.cs
+
+namespace Actor1
+{
+    abstract class IState       
+    {
+        public Actor1 actor1;
+        public bool stateVariable;
+        public virtual void UpdateState() { }
+    }
+}
+
+OffState.cs
+namespace Actor1
+{
+    class OffState : IState
+    {
+        public OffState (Actor1 actor1)
+        {
+            this.actor1 = actor1;
+            this.stateVariable = false;
+        }
+
+        public override void UpdateState()
+        {
+            actor1.currentState = actor1.onState;
+        }
+    }
+}
+
+OnState.cs
+namespace Actor1
+{
+    class OnState : IState
+    {
+        public OnState(Actor1 actor1)
+        {
+            this.actor1 = actor1;
+            this.stateVariable = true;
+        }
+        public override void UpdateState()
+        {
+            actor1.currentState = actor1.offState;
+        }
+    }
+}
+
+
+ValuesController.cs
+using System;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.ServiceFabric.Actors;
+using Microsoft.ServiceFabric.Actors.Client;
+using Actor1.Interfaces;
+
+namespace Web1.Controllers
+{
+    [Route("api/[controller]")]
+    public class ValuesController : Controller
+    {
+        static ActorId actorId = ActorId.CreateRandom();
+        IActor1 actor1 = ActorProxy.Create<IActor1>(actorId, new Uri("fabric:/Application34/Actor1ActorService"));
+        // GET api/values
+        [HttpGet]
+        public Task<bool> Get()
+        {
+            return actor1.Update();
+        }
+    }
+}
+
+
