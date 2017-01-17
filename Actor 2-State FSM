@@ -39,7 +39,7 @@ IState.cs
 
 namespace Actor1
 {
-    abstract class IState       
+    public abstract class IState       
     {
         public Actor1 actor1;
         public bool stateVariable;
@@ -50,7 +50,7 @@ namespace Actor1
 OffState.cs
 namespace Actor1
 {
-    class OffState : IState
+    public class OffState : IState
     {
         public OffState (Actor1 actor1)
         {
@@ -68,7 +68,7 @@ namespace Actor1
 OnState.cs
 namespace Actor1
 {
-    class OnState : IState
+    public class OnState : IState
     {
         public OnState(Actor1 actor1)
         {
