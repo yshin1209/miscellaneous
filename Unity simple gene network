@@ -1,0 +1,26 @@
+using UnityEngine;
+
+public class SphereScript : MonoBehaviour {
+    float y;
+    float x;
+    float p_y;
+    float p_xy;
+    float a;
+    // Use this for initialization
+    void Awake () {
+        GetComponent<Renderer>().material.color = new Color(1.0f, 0f, 0f, 0);
+        p_y = 0.9f;
+        p_xy = 0.7f;
+        y = 0;
+    }
+	
+	// Update is called once per frame
+	void FixedUpdate () {
+        Time.fixedDeltaTime = 0.5f;
+        x = 10f;
+        y = p_xy * x + p_y * y;
+        Debug.Log(y);
+        a = y / 100f;
+        GetComponent<Renderer>().material.color = new Color(1.0f, 0f, 0f, a);
+	}
+}
