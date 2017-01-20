@@ -1,0 +1,51 @@
+using UnityEngine;
+
+public class Env : MonoBehaviour {
+
+    public GameObject envElement;
+    private GameObject[,] env;
+    private int dim;
+
+
+    void Awake()
+    {
+        dim = 3;
+        env = new GameObject[dim, dim];
+        for (int y = 0; y < dim; y++)
+        {
+            for (int x = 0; x < dim; x++)
+            {
+                env[x,y] = Instantiate(envElement, new Vector3(x, y, 0), Quaternion.identity);
+                env[x,y].name = "env"+ x.ToString()+ y.ToString();
+            }
+        }
+    }
+}
+
+
+
+public class EnvScript : MonoBehaviour {
+
+    private float conc;
+    private float d;
+
+    void Start()
+    {
+        if (gameObject.name == "env11")
+        {
+            conc = 1;
+        }
+        else conc = 0;
+        d = 0.001f;
+        gameObject.GetComponent<Renderer>().material.color = new Color(1, 0, 0, conc);
+        Debug.Log(gameObject.name + "  " + conc);
+    }
+
+    void OnTriggerStay(Collider other)
+    {
+        conc = conc + d * (other.gameObject.GetComponent<EnvScript>().conc - conc);
+        gameObject.GetComponent<Renderer>().material.color = new Color(1, 0, 0, conc);
+
+    }
+}
+
