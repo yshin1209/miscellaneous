@@ -6,7 +6,6 @@ public class Env : MonoBehaviour {
     private GameObject[,] env;     // environmental element 2D array
     private int size;              // size of array
 
-
     void Awake()
     {
         dim = 3;
