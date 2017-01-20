@@ -2,21 +2,21 @@ using UnityEngine;
 
 public class Env : MonoBehaviour {
 
-    public GameObject envElement;
-    private GameObject[,] env;
-    private int dim;
+    public GameObject envElement;  //prefab
+    private GameObject[,] env;     // environmental element 2D array
+    private int size;              // size of array
 
 
     void Awake()
     {
         dim = 3;
-        env = new GameObject[dim, dim];
-        for (int y = 0; y < dim; y++)
+        env = new GameObject[size, size];
+        for (int y = 0; y < size; y++)
         {
-            for (int x = 0; x < dim; x++)
+            for (int x = 0; x < size; x++)
             {
-                env[x,y] = Instantiate(envElement, new Vector3(x, y, 0), Quaternion.identity);
-                env[x,y].name = "env"+ x.ToString()+ y.ToString();
+                env[x,y] = Instantiate(envElement, new Vector3(x, y, 0), Quaternion.identity); // create environmental element
+                env[x,y].name = "env"+ x.ToString()+ y.ToString(); // Assign a name to environmental element
             }
         }
     }
@@ -26,26 +26,25 @@ public class Env : MonoBehaviour {
 
 public class EnvScript : MonoBehaviour {
 
-    private float conc;
-    private float d;
+    private float conc;  // concentration (0-1)
+    private float d; // diffusin coefficient
 
     void Start()
     {
-        if (gameObject.name == "env11")
+        if (gameObject.name == "env11") // environmental element in the center
         {
             conc = 1;
         }
         else conc = 0;
-        d = 0.001f;
-        gameObject.GetComponent<Renderer>().material.color = new Color(1, 0, 0, conc);
-        Debug.Log(gameObject.name + "  " + conc);
+        d = 0.001f;  // set diffusin coefficient
+        gameObject.GetComponent<Renderer>().material.color = new Color(1, 0, 0, conc); // concentration (0-1) --> transparency (alpha) (0-1)
+        Debug.Log(gameObject.name + "  " + conc); // show concentation in the Console
     }
 
-    void OnTriggerStay(Collider other)
+    void OnTriggerStay(Collider other) // when a "collision" between environmental elements happens
     {
-        conc = conc + d * (other.gameObject.GetComponent<EnvScript>().conc - conc);
-        gameObject.GetComponent<Renderer>().material.color = new Color(1, 0, 0, conc);
-
+        conc = conc + d * (other.gameObject.GetComponent<EnvScript>().conc - conc); // diffusion equation
+        gameObject.GetComponent<Renderer>().material.color = new Color(1, 0, 0, conc); // set the transparency (concentration)
     }
 }
 
