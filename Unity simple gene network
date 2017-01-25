@@ -22,7 +22,7 @@ public class CellScript : MonoBehaviour
     {
         //Time.fixedDeltaTime
 	//The interval in seconds at which physics and other fixed frame rate updates are performed.
-	Time.fixedDeltaTime = 0.5f;
+	Time.fixedDeltaTime = 0.5f; // default value = 0.02f
         x = 10.0f; // constant x protein concentration
         y = p_xy * x + p_y * y; // simple gene network equation
         r = y / maxY;
