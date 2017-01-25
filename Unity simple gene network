@@ -27,5 +27,6 @@ public class CellScript : MonoBehaviour
         y = p_xy * x + p_y * y; // simple gene network equation
         r = y / maxY;
         GetComponent<Renderer>().material.color = new Color(r, 0, 0); // update the red color intensity of the cell
+	Debug.Log ("r = " + r); // show the r value in the Unity Console Window
     }
 }
