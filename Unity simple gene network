@@ -1,26 +1,31 @@
 using UnityEngine;
 
-public class SphereScript : MonoBehaviour {
-    float y;
-    float x;
-    float p_y;
-    float p_xy;
-    float a;
+public class SphereScript : MonoBehaviour 
+{
+    float x;  // x protein concentration
+    float y;  // y protein concentration
+    float maxY; // maximum y protein  concentration
+    float p_y;  // parameter p_y
+    float p_xy; // parameter p_xy
+    float r;    // red color intentity representing y protein concentration (0-1)
+    
     // Use this for initialization
-    void Awake () {
-        GetComponent<Renderer>().material.color = new Color(1.0f, 0f, 0f, 0);
-        p_y = 0.9f;
-        p_xy = 0.7f;
-        y = 0;
+    void Start () 
+    {
+        p_y = 0.9f;  // parameter p_y value
+        p_xy = 0.7f; // parameter p_xy value
+        y = 0; // inital y protein concentraiton
+	maxY = 100;
     }
 	
-	// Update is called once per frame
-	void FixedUpdate () {
-        Time.fixedDeltaTime = 0.5f;
-        x = 10f;
-        y = p_xy * x + p_y * y;
-        Debug.Log(y);
-        a = y / 100f;
-        GetComponent<Renderer>().material.color = new Color(1.0f, 0f, 0f, a);
-	}
+    void FixedUpdate () 
+    {
+        //Time.fixedDeltaTime
+	//The interval in seconds at which physics and other fixed frame rate updates are performed.
+	Time.fixedDeltaTime = 0.5f;
+        x = 10.0f; // constant x protein concentration
+        y = p_xy * x + p_y * y; // simple gene network equation
+        r = y / maxY;
+        GetComponent<Renderer>().material.color = new Color(r, 0, 0); // update the red color intensity of the cell
+    }
 }
