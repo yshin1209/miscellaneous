@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class SphereScript : MonoBehaviour 
+public class CellScript : MonoBehaviour 
 {
     float x;  // x protein concentration
     float y;  // y protein concentration
