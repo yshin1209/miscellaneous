@@ -1,0 +1,12 @@
+
+http://stackoverflow.com/questions/40088573/swagger-for-azure-service-fabric-stateless-web-api-application
+
+http://faricurl:8000/swagger.
+
+As suggested in my comment install the core Swashbuckle NuGet package
+
+install-package Swashbuckle.Core
+Then in the Startup.cs of your WebApi project add
+
+ config.EnableSwagger(c => c.SingleApiVersion("v1", "A title for your API"))
+        .EnableSwaggerUi();
