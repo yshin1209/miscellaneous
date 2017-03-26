@@ -10,3 +10,15 @@ Then in the Startup.cs of your WebApi project add
 
  config.EnableSwagger(c => c.SingleApiVersion("v1", "A title for your API"))
         .EnableSwaggerUi();
+
+
+//CORS
+Nuget:
+
+using System.Web.Http.Cors;
+
+    [ServiceRequestActionFilter]
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
+
+Startup.cs
+config.EnableCors();
