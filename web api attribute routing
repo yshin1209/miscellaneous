@@ -1,0 +1,7 @@
+        [HttpGet]
+        [Route("api/products/{param1}/{param2}")]
+        public string Show(int param1, int param2)
+        {
+            string response = "param1: " + param1 + " param2: " + param2;
+            return response;
+        }
