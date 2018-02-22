@@ -54,16 +54,15 @@ namespace Web1.Controllers
     [Route("api/[controller]")]
     public class ValuesController : Controller
     {
-        // GET api/values
+
         [HttpGet]
-        public async Task<string> Get()
+        [Route("{id}/{param1}/{x}/{param2}/{y}/")]
+        public async Task<string> Get(int id, double param1, double x, double param2, double y)
         {
-            // Create a randomly distributed actor ID
-            ActorId actorId = ActorId.CreateRandom();
-            //Change the name of Application
-            var actor1 = ActorProxy.Create<IActor1>(actorId, new Uri("fabric:/Application15/Actor1ActorService"));
-            int count = await actor1.Hello();
-            return count.ToString();
+            ActorId actorId = new ActorId(id);
+            var actor1 = ActorProxy.Create<IActor1>(actorId, new Uri("fabric:/Application9/Actor1ActorService"));
+            double response = await actor1.RunAsync(param1, x, param2, y);
+            return response.ToString();
         }
     }
 }
