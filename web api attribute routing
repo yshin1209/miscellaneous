@@ -1,7 +1,9 @@
         [HttpGet]
-        [Route("api/products/{param1}/{param2}")]
-        public string Show(int param1, int param2)
+        [Route("{id}/{param1}/{x}/{param2}/{y}/")]
+        public async Task<string> Get(int id, double param1, double x, double param2, double y)
         {
-            string response = "param1: " + param1 + " param2: " + param2;
-            return response;
+            ActorId actorId = new ActorId(id);
+            var actor1 = ActorProxy.Create<IActor1>(actorId, new Uri("fabric:/Application9/Actor1ActorService"));
+            double response = await actor1.RunAsync(param1, x, param2, y);
+            return response.ToString();
         }
