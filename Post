@@ -1,0 +1,22 @@
+      [HttpPost]
+        public int[] Post([FromBody] Matrix mat)
+        {
+            int[] array1 = mat.Array1;
+            int[] array2 = mat.Array2;
+            int[] array3 = new int[array2.Length];
+            for (int i = 0;i< array1.Length; i++)
+            {
+                array3[i] = array1[i] + array2[i];
+            }
+
+            return array3;
+        }
+        
+MATLAB client:
+
+array1 = [1 2]
+array2 = [3 6]
+data = struct('array1', array1, 'array2', array2);
+url = 'http://localhost:52030/api/values/';
+options = weboptions('MediaType','application/json');
+response = webwrite (url, data, options)
