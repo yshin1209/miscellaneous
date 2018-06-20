@@ -1,0 +1,3 @@
+headerFields = {'Authorization', ['Bearer ', access_token]};
+options = weboptions('HeaderFields', headerFields, 'ContentType','json');
+data = webread(url, options);
