@@ -1,0 +1,41 @@
+using Microsoft.Azure.Documents;
+using Microsoft.Azure.Documents.Client;
+using Microsoft.Azure.Documents.Linq;
+using Microsoft.Azure.Graphs;
+using Newtonsoft.Json;
+using System;
+
+namespace ConsoleApp19
+{
+    class Program
+    {
+
+
+
+        static void Main(string[] args)
+        {
+            using (DocumentClient client = new DocumentClient(
+              new Uri("https://..."),
+              "DxuZykVZHSphR..."))
+            {
+                DocumentCollection graph = client.CreateDocumentCollectionIfNotExistsAsync(
+                  UriFactory.CreateDatabaseUri("graphdb"),
+                  new DocumentCollection { Id = "Persons" },
+                  new RequestOptions { OfferThroughput = 1000 }).Result;
+                /*// drop all vertex
+                IDocumentQuery<dynamic> query1 =
+                  client.CreateGremlinQuery<dynamic>(graph, "g.V().drop()");
+                dynamic result1 = query1.ExecuteNextAsync().Result;
+                Console.WriteLine($"{JsonConvert.SerializeObject(result1)}");*/
+                // add vertex
+                IDocumentQuery<dynamic> query2 =
+                  client.CreateGremlinQuery<dynamic>(graph, "g.addV('person').property('id', 'syy').property('firstName', 'SoYoun')");
+                dynamic result2 = query2.ExecuteNextAsync().Result;
+                Console.WriteLine($"{JsonConvert.SerializeObject(result2)}");
+            }
+
+            Console.WriteLine("Done !");
+            Console.ReadLine();
+        }
+    }
+}
